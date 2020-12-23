@@ -1,0 +1,54 @@
+debug: true # Debug enables PProf
+locale: en
+
+memory:
+  # Reports memory usage overtime to console
+  # This works only if debug is turned on
+  report: true
+  sleep: 30s
+databases:
+  # Storage engines - SQL and NoSQL(Mongo)
+  # There is not partial data storage support
+  sql:
+    provider: postgres # supported drivers - sqlite, postgres, mysql
+    uri: ''
+    host: postgres
+    user: gofiber-boilerplate
+    password: gofiber-boilerplate
+    dbname: gofiber-boilerplate
+    port: 5432
+    timezone: UTC
+    sslmode: false
+    logfile: ./log/db.log
+  mongo:
+    uri: mongodb://mongo:27017
+  redis:
+    addr: redis:6379
+    password: ''
+keys:
+  public_key_algorithm: xsalsa
+  secret_key_algorithm: chacha20poly1305
+  # If Directory does not exist, vaulguard will try to create it along with keys
+  # Watch out!!! If you lose keys or change directory key keys will be generated
+  # and secrets will be lost
+  private: ./keys/private.key # Path to EdDSA (Ed25519) private key
+  public: ./keys/public.key # Path to EdDSA (Ed25519) public key
+  secret: ./keys/secret.key # Path to XChaCha20Poly1305 secret key
+
+# supported logging - debug, info, warning, error
+logging:
+  level: info # Logger instance used in API
+  console: true # Console logging
+  file: ./log/requestdecomposer.log
+
+http:
+  prefork: false
+  address: 0.0.0.0:4000 # HTTP Address
+  session:
+    cookie: vaulguard_session
+    provider: redis
+    secure: false
+    domain: ''
+    samesite: Lax
+    expiration: 12h
+    gc: 1m
